@@ -6,9 +6,9 @@ services:
     restart: always
     ports:
       - "8000:8000"
+    env_file:
+      - ./backend/.env
     environment:
-      - BAILIAN_API_KEY=${BAILIAN_API_KEY}
-      - BAILIAN_APP_ID=${BAILIAN_APP_ID}
       - DATABASE_URL=sqlite:///./data/resume_analyzer.db
       # Update this with your server IP or domain
       - CORS_ORIGINS=http://localhost,http://127.0.0.1
