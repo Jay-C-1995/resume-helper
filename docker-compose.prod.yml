@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - BAILIAN_API_KEY=${BAILIAN_API_KEY}
+      - BAILIAN_APP_ID=${BAILIAN_APP_ID}
+      - DATABASE_URL=sqlite:///./data/resume_analyzer.db
+      # Update this with your server IP or domain
+      - CORS_ORIGINS=http://localhost,http://127.0.0.1
+    volumes:
+      - ./backend_data:/app/data
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf

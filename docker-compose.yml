@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    environment:
+      - BAILIAN_API_KEY=${BAILIAN_API_KEY}
+      - BAILIAN_APP_ID=${BAILIAN_APP_ID}
+      - DATABASE_URL=sqlite:///./data/resume_analyzer.db
+    volumes:
+      - ./backend:/app
+      - ./backend_data:/app/data
+    
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend

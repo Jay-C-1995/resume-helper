@@ -1,0 +1,34 @@
+# Node
+node_modules/
+frontend/dist/
+frontend/node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+backend/venv/
+backend/__pycache__/
+.env
+.venv
+
+# Database
+*.db
+backend_data/
+
+# IDE
+.vscode/
+.idea/
+.trae/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log

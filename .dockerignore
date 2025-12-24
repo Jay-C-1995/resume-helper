@@ -1,0 +1,36 @@
+# Git
+.git
+.gitignore
+
+# Docker
+docker-compose.yml
+docker-compose.prod.yml
+Dockerfile*
+
+# Node
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env
+venv
+.env
+.venv
+pip-log.txt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project
+backend_data
+resume_analyzer.db
+frontend/dist
+coverage
+.trae
