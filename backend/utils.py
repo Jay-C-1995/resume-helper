@@ -53,7 +53,7 @@ def analyze_resume_with_bailian(text: str) -> dict:
     1. 识别简历中是否包含 RAG/Agent/AI 工程相关关键词（如 LangChain, LlamaIndex, FAISS, Pinecone, FastAPI, Embedding模型, Agent框架等）。
     2. 判断项目是否体现系统设计、评估指标、迭代优化。
     3. 检查是否有量化成果（如准确率提升、延迟降低等）。
-    4. 给出4-5条具体、可操作的修改建议。
+    4. 给出4-5条具体、可操作的修改建议。**请务必针对简历中的具体描述进行优化，格式为：“原文：[引用简历片段] -> 建议：[修改后的描述]”。如果原文描述笼统，请给出具体的扩充方向。**
 
     请严格返回合法的JSON格式，不包含Markdown格式标记，包含以下字段：
     - name: 候选人姓名（如果找不到则返回"Unknown"）
@@ -61,7 +61,7 @@ def analyze_resume_with_bailian(text: str) -> dict:
     - ai_skills: 字符串数组，检测到的AI相关技能
     - role_match_score: 整数 (0-100)，岗位匹配度
     - project_depth_score: 整数 (1-5)，项目深度，简历书写评分
-    - suggestions: 字符串数组，4-5条具体修改建议
+    - suggestions: 字符串数组，4-5条具体修改建议，每条建议都应包含原文引用和修改建议
     """
 
     try:
