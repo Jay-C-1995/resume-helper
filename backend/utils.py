@@ -4,6 +4,7 @@ import os
 import json
 from openai import OpenAI
 from dotenv import load_dotenv
+from logger import logger
 
 load_dotenv()
 
@@ -14,7 +15,7 @@ BAILIAN_APP_ID = os.getenv("BAILIAN_APP_ID")
 def get_client():
     api_key = os.getenv("BAILIAN_API_KEY")
     if not api_key:
-        print("Warning: BAILIAN_API_KEY not found in environment variables")
+        logger.warning("BAILIAN_API_KEY not found in environment variables")
         return None
         
     return OpenAI(
@@ -33,7 +34,7 @@ def extract_text_from_pdf(file_bytes: bytes) -> str:
                     text += page_text + "\n"
             return text
     except Exception as e:
-        print(f"Error extracting text from PDF: {e}")
+        logger.error(f"Error extracting text from PDF: {e}", exc_info=True)
         return ""
 
 def analyze_resume_with_bailian(text: str) -> dict:
@@ -80,7 +81,7 @@ def analyze_resume_with_bailian(text: str) -> dict:
         content = completion.choices[0].message.content
         return json.loads(content)
     except Exception as e:
-        print(f"Error calling Bailian API: {e}")
+        logger.error(f"Error calling Bailian API: {e}", exc_info=True)
         # Return a mock error response or raise
         return {
             "name": "Error",

@@ -1,13 +1,15 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException, Depends
+from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import json
 import os
+import time
 from dotenv import load_dotenv
 
 from database import engine, get_db, Base
 from models import ResumeAnalysis
 from utils import extract_text_from_pdf, analyze_resume_with_bailian
+from logger import logger
 
 load_dotenv()
 
@@ -15,6 +17,15 @@ load_dotenv()
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="AI Resume Analyzer")
+
+# Request Logging Middleware
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    logger.info(f"{request.method} {request.url.path} - Status: {response.status_code} - Time: {process_time:.4f}s")
+    return response
 
 # CORS Configuration
 origins = os.getenv("CORS_ORIGINS", "*").split(",")
@@ -68,9 +79,10 @@ async def analyze_resume(file: UploadFile = File(...), db: Session = Depends(get
         }
 
     except Exception as e:
-        print(f"Error processing resume: {e}")
+        logger.error(f"Error processing resume: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn
+    logger.info("Starting AI Resume Analyzer API...")
     uvicorn.run(app, host="0.0.0.0", port=8000)
