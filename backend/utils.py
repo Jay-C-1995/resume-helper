@@ -53,7 +53,7 @@ def analyze_resume_with_bailian(text: str) -> dict:
     - email: 候选人邮箱（如果找不到则返回"Unknown"）
     - ai_skills: 字符串数组，检测到的AI相关技能
     - role_match_score: 整数 (0-100)，岗位匹配度
-    - project_depth_score: 整数 (1-5)，项目深度评分
+    - project_depth_score: 整数 (1-5)，项目深度，简历书写评分
     - suggestions: 字符串数组，4-5条具体修改建议
     """
 

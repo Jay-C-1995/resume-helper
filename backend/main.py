@@ -17,11 +17,11 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="AI Resume Analyzer")
 
 # CORS Configuration
-origins = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:5173,http://127.0.0.1:3000,http://127.0.0.1:5173,http://101.43.78.245").split(",")
+# origins = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:5173,http://127.0.0.1:3000,http://127.0.0.1:5173,http://101.43.78.245").split(",")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # Allow all origins for development
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -53,10 +53,10 @@ async def analyze_resume(file: UploadFile = File(...), db: Session = Depends(get
             filename=file.filename,
             name=analysis_result.get("name", "Unknown"),
             email=analysis_result.get("email", "Unknown"),
-            ai_skills=json.dumps(analysis_result.get("ai_skills", [])),
+            ai_skills=json.dumps(analysis_result.get("ai_skills", []), ensure_ascii=False),
             role_match_score=analysis_result.get("role_match_score", 0),
             project_depth_score=analysis_result.get("project_depth_score", 0),
-            suggestions=json.dumps(analysis_result.get("suggestions", []))
+            suggestions=json.dumps(analysis_result.get("suggestions", []), ensure_ascii=False)
         )
         db.add(db_record)
         db.commit()
