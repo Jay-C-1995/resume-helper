@@ -11,10 +11,16 @@ BAILIAN_API_KEY = os.getenv("BAILIAN_API_KEY")
 BAILIAN_APP_ID = os.getenv("BAILIAN_APP_ID")
 
 # Initialize OpenAI client for Bailian (DashScope)
-client = OpenAI(
-    api_key=BAILIAN_API_KEY,
-    base_url="https://dashscope.aliyuncs.com/compatible-mode/v1"
-)
+def get_client():
+    api_key = os.getenv("BAILIAN_API_KEY")
+    if not api_key:
+        print("Warning: BAILIAN_API_KEY not found in environment variables")
+        return None
+        
+    return OpenAI(
+        api_key=api_key,
+        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1"
+    )
 
 def extract_text_from_pdf(file_bytes: bytes) -> str:
     """Extract text from PDF file bytes."""
@@ -58,6 +64,10 @@ def analyze_resume_with_bailian(text: str) -> dict:
     """
 
     try:
+        client = get_client()
+        if not client:
+            raise ValueError("BAILIAN_API_KEY not configured")
+
         completion = client.chat.completions.create(
             model="qwen-plus",
             messages=[

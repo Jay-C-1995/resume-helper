@@ -9,7 +9,6 @@ services:
     env_file:
       - ./backend/.env
     environment:
-      - DATABASE_URL=sqlite:///./data/resume_analyzer.db
       # Update this with your server IP or domain
       - CORS_ORIGINS=http://localhost,http://127.0.0.1
     volumes:
