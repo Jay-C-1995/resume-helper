@@ -84,7 +84,7 @@ function App() {
                 <div className="anime-card p-6 bg-white/80 hover:-translate-y-1 transition-transform border-t-4 border-amber-300">
                   <div className="text-4xl mb-3">📊</div>
                   <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-2">技能评估</h3>
-                  <p className="text-sm text-gray-600">多维度评分与技术咏唱分析</p>
+                  <p className="text-sm text-gray-600">多维度评分与技术难点分析</p>
                 </div>
                 <div className="anime-card p-6 bg-white/80 hover:-translate-y-1 transition-transform border-t-4 border-pink-300">
                   <div className="text-4xl mb-3">✨</div>
